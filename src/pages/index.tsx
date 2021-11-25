@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import type { NextPage } from "next";
 import { useDispatch } from "react-redux";
 import { setMousePosition, setMouseUp } from "../redux/slices/globalSlice";
