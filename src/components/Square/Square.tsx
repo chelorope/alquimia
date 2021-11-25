@@ -14,15 +14,15 @@ export type Props = {
 const Square = ({ id }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
-  const [initialPosition, translatedPosition, isSelected] = useSelector(
+  const { initialPosition, translatedPosition, isSelected } = useSelector(
     (state: RootState) => {
       // console.log(state);
 
-      return [
-        state.global.squareInitialPositions[id],
-        state.global.squareTranslatedPositions[id],
-        state.global.translation.square === id,
-      ];
+      return {
+        initialPosition: state.global.squareInitialPositions[id],
+        translatedPosition: state.global.squareTranslatedPositions[id],
+        isSelected: state.global.translation.square === id,
+      };
     }
   );
 
@@ -46,7 +46,7 @@ const Square = ({ id }: Props) => {
 
   return (
     <div
-      className={classnames(styles.Square, { isSelected })}
+      className={classnames(styles.Square, { [styles.isSelected]: isSelected })}
       ref={ref}
       style={{
         transform: `translate(${

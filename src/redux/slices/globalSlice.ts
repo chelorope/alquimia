@@ -40,25 +40,48 @@ export const globalSlice = createSlice({
           (square) => isInSquare(state.mousePosition, square)
         );
       }
-
+      const translatedSquareInitialPosition =
+        state.squareInitialPositions[state.translation.square];
       if (state.translation.square !== -1) {
         state.squareTranslatedPositions[state.translation.square] = {
           top:
-            state.squareInitialPositions[state.translation.square].top +
-            (state.translation.initialY + state.mousePosition.y),
+            translatedSquareInitialPosition.top +
+            (state.mousePosition.y - state.translation.initialY),
           right:
-            state.squareInitialPositions[state.translation.square].right +
-            (state.translation.initialX + state.mousePosition.x),
+            translatedSquareInitialPosition.right +
+            (state.mousePosition.x - state.translation.initialX),
           bottom:
-            state.squareInitialPositions[state.translation.square].bottom +
-            (state.translation.initialY + state.mousePosition.y),
+            translatedSquareInitialPosition.bottom +
+            (state.mousePosition.y - state.translation.initialY),
           left:
-            state.squareInitialPositions[state.translation.square].left +
-            (state.translation.initialX + state.mousePosition.x),
+            translatedSquareInitialPosition.left +
+            (state.mousePosition.x - state.translation.initialX),
+        };
+      } else {
+        state.translation = {
+          ...state.translation,
+          initialX: action.payload.x,
+          initialY: action.payload.y,
         };
       }
 
       if (hasReleased) {
+        const translatedSquareTranslatedPosition =
+          state.squareTranslatedPositions[state.translation.square];
+        if (
+          translatedSquareTranslatedPosition &&
+          translatedSquareTranslatedPosition.left < state.canvasPosition.left &&
+          translatedSquareTranslatedPosition.top < state.canvasPosition.top &&
+          translatedSquareTranslatedPosition.right >
+            state.canvasPosition.right &&
+          translatedSquareTranslatedPosition.bottom >
+            state.canvasPosition.bottom
+        ) {
+          console.log("OUT");
+
+          state.squareTranslatedPositions[state.translation.square] =
+            state.squareInitialPositions[state.translation.square];
+        }
         state.translation.square = -1;
       }
     },
