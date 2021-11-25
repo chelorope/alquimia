@@ -15,9 +15,7 @@ const SQUARES_ARRAY = Array.from(Array(SQUARES_AMOUNT).keys());
 const Home: NextPage = () => {
   const dispatch = useDispatch();
   const handleMouseMove = (event: MouseEvent) => {
-    console.log(event.clientX);
-
-    dispatch(setMousePosition({ x: event.clientX, y: event.clientX }));
+    dispatch(setMousePosition({ x: event.clientX, y: event.clientY }));
   };
 
   const handleMouseDownEvent = () => {
