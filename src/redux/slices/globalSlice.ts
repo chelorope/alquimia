@@ -70,23 +70,25 @@ export const globalSlice = createSlice({
     },
     setMouseUp: (state, action) => {
       const { square } = state.translation;
-      const translatedPositions =
-        state.squareTranslatedPositions[square[0]][square[1]];
+      if (square[0] !== -1 && square[1] !== -1) {
+        const translatedPositions =
+          state.squareTranslatedPositions[square[0]][square[1]];
 
-      if (
-        translatedPositions.top < state.canvasPosition.top ||
-        translatedPositions.left < state.canvasPosition.left ||
-        translatedPositions.right > state.canvasPosition.right ||
-        translatedPositions.bottom > state.canvasPosition.bottom
-      ) {
-        state.squareTranslatedPositions[square[0]].splice(square[1], 1);
+        if (
+          translatedPositions.top < state.canvasPosition.top ||
+          translatedPositions.left < state.canvasPosition.left ||
+          translatedPositions.right > state.canvasPosition.right ||
+          translatedPositions.bottom > state.canvasPosition.bottom
+        ) {
+          state.squareTranslatedPositions[square[0]].splice(square[1], 1);
+        }
+
+        state.translation = {
+          square: [-1, -1],
+          initialX: 0,
+          initialY: 0,
+        };
       }
-
-      state.translation = {
-        square: [-1, -1],
-        initialX: 0,
-        initialY: 0,
-      };
     },
     setMousePosition: (state, action) => {
       state.mousePosition = { ...state.mousePosition, ...action.payload };
