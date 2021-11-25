@@ -2,7 +2,10 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classnames from "classnames";
 
-import { setSquareInitialPosition } from "../../redux/slices/globalSlice";
+import {
+  setMouseDown,
+  setSquareInitialPosition,
+} from "../../redux/slices/globalSlice";
 import { RootState } from "../../redux/store";
 
 import styles from "./Square.module.scss";
@@ -14,14 +17,16 @@ export type Props = {
 const Square = ({ id }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
-  const { initialPosition, translatedPosition, isSelected } = useSelector(
-    (state: RootState) => {
-      // console.log(state);
-
+  const { initialPosition, translatedPositions, selected } = useSelector(
+    ({
+      squareInitialPositions,
+      squareTranslatedPositions,
+      translation,
+    }: RootState) => {
       return {
-        initialPosition: state.global.squareInitialPositions[id],
-        translatedPosition: state.global.squareTranslatedPositions[id],
-        isSelected: state.global.translation.square === id,
+        initialPosition: squareInitialPositions[id],
+        translatedPositions: squareTranslatedPositions[id],
+        selected: translation.square[0] === id && translation.square[1],
       };
     }
   );
@@ -46,14 +51,28 @@ const Square = ({ id }: Props) => {
 
   return (
     <div
-      className={classnames(styles.Square, { [styles.isSelected]: isSelected })}
+      className={styles.Square}
       ref={ref}
-      style={{
-        transform: `translate(${
-          translatedPosition?.left - initialPosition?.left
-        }px, ${translatedPosition?.top - initialPosition?.top}px)`,
-      }}
-    ></div>
+      onMouseDown={() => dispatch(setMouseDown([id]))}
+    >
+      {translatedPositions?.map((sq, index) => (
+        <div
+          key={index}
+          className={classnames(styles.innerSquare, {
+            [styles.isSelected]: selected === index,
+          })}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            dispatch(setMouseDown([id, index]));
+          }}
+          style={{
+            transform: `translate(${sq?.left - initialPosition?.left}px, ${
+              sq?.top - initialPosition?.top
+            }px)`,
+          }}
+        />
+      ))}
+    </div>
   );
 };
 

@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
-import { SyntheticEvent, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { setMousePosition } from "../redux/slices/globalSlice";
+import { setMousePosition, setMouseUp } from "../redux/slices/globalSlice";
 
 import Canvas from "../components/Canvas/Canvas";
 import SideBar from "../components/SideBar/SideBar";
@@ -18,19 +17,14 @@ const Home: NextPage = () => {
     dispatch(setMousePosition({ x: event.clientX, y: event.clientY }));
   };
 
-  const handleMouseDownEvent = () => {
-    dispatch(setMousePosition({ down: true }));
-  };
-
   const handleMouseUpEvent = () => {
-    dispatch(setMousePosition({ down: false }));
+    dispatch(setMouseUp({}));
   };
 
   return (
     <div
       className={styles.main}
       onMouseMove={handleMouseMove}
-      onMouseDown={handleMouseDownEvent}
       onMouseUp={handleMouseUpEvent}
     >
       <SideBar>

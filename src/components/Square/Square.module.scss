@@ -1,12 +1,23 @@
 .Square {
+  position: relative;
   cursor: pointer;
   width: 10rem;
   height: 10rem;
   margin-bottom: 2rem;
-  background-color: blue;
+  z-index: 0;
 
-  &.isSelected {
-    border: 4px solid red;
+  .innerSquare {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: inherit;
+    z-index: 1;
+
+    &.isSelected {
+      border: 4px solid red;
+    }
   }
 
   &:nth-child(1) {
