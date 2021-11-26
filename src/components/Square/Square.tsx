@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import classnames from "classnames";
+import deepEqual from "react-fast-compare";
 
 import {
   setMouseDown,
@@ -28,7 +29,8 @@ const Square = ({ id }: Props) => {
         translatedPositions: squareTranslatedPositions[id],
         selected: translation.square[0] === id && translation.square[1],
       };
-    }
+    },
+    deepEqual
   );
 
   useEffect(() => {
@@ -76,4 +78,4 @@ const Square = ({ id }: Props) => {
   );
 };
 
-export default Square;
+export default memo(Square);

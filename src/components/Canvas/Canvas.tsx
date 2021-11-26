@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { memo, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { setCanvasPosition } from "../../redux/slices/globalSlice";
 
 import styles from "./Canvas.module.scss";
@@ -24,4 +24,4 @@ const Canvas = () => {
   return <div className={styles.Canvas} ref={ref}></div>;
 };
 
-export default Canvas;
+export default memo(Canvas);

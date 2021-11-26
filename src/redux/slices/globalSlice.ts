@@ -66,7 +66,6 @@ export const globalSlice = createSlice({
             initialPosition.top -
             translatedPosition.top,
         };
-        console.log("translation: ", state.translation);
       }
     },
     setMouseUp: (state, action) => {
@@ -93,7 +92,6 @@ export const globalSlice = createSlice({
     },
     setMousePosition: (state, action) => {
       state.mousePosition = { ...state.mousePosition, ...action.payload };
-      console.log("mouse position: ", state.mousePosition);
 
       const { square } = state.translation;
       if (square[0] !== -1 && square[1] !== -1) {

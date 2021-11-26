@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { memo, PropsWithChildren } from "react";
 
 import styles from "./SideBar.module.scss";
 
@@ -10,4 +10,4 @@ const SideBar = ({ children }: Props) => {
   return <div className={styles.SideBar}>{children}</div>;
 };
 
-export default SideBar;
+export default memo(SideBar);
