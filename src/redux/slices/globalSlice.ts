@@ -59,13 +59,14 @@ export const globalSlice = createSlice({
           ...state.translation,
           initialX:
             state.mousePosition.x +
-            translatedPosition.top -
-            initialPosition.top,
+            initialPosition.left -
+            translatedPosition.left,
           initialY:
-            state.mousePosition.x +
-            translatedPosition.left -
-            initialPosition.left,
+            state.mousePosition.y +
+            initialPosition.top -
+            translatedPosition.top,
         };
+        console.log("translation: ", state.translation);
       }
     },
     setMouseUp: (state, action) => {
@@ -92,6 +93,8 @@ export const globalSlice = createSlice({
     },
     setMousePosition: (state, action) => {
       state.mousePosition = { ...state.mousePosition, ...action.payload };
+      console.log("mouse position: ", state.mousePosition);
+
       const { square } = state.translation;
       if (square[0] !== -1 && square[1] !== -1) {
         state.squareTranslatedPositions[square[0]][square[1]] = {
